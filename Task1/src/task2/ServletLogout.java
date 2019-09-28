@@ -8,26 +8,30 @@ import java.io.PrintWriter;
 
 @WebServlet(name = "ServletLogout")
 public class ServletLogout extends HttpServlet {
+
+    private String html1 = "<h1>Successfully</h1>" +
+            "<form  action=\"login\">" +
+            "<input type=\"submit\" value=\"Back\">" +
+            "<form>";
+    private UsersUT user = new UsersUT();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Cookie cookieLog = new Cookie("login", "");
-        cookieLog.setMaxAge(0);
-        response.addCookie(cookieLog);
-        Cookie pasLog = new Cookie("password", "");
-        pasLog.setMaxAge(0);
-        response.addCookie(pasLog);
-        System.out.println("delete");
+//        Cookie cookieLog = new Cookie("login", "");
+//        cookieLog.setMaxAge(0);
+//        response.addCookie(cookieLog);
+//        Cookie pasLog = new Cookie("password", "");
+//        pasLog.setMaxAge(0);
+//        response.addCookie(pasLog);
+//        HttpSession session = request.getSession();
+//        session.invalidate();
 
+        user.logout(request, response);
         PrintWriter out = response.getWriter();
-        out.print("<h1>Successfully</h1>" +
-                "<form  action=\"login\">" +
-                "<input type=\"submit\" value=\"Back\">" +
-                "<form>");
-        HttpSession session = request.getSession();
-        session.invalidate();
+        out.print(html1);
         out.close();
 
 //        Cookie[] cookies = request.getCookies();

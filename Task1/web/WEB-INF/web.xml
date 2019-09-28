@@ -39,4 +39,13 @@
         <servlet-name>logoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>goodsServlet</servlet-name>
+        <servlet-class>task2.ServletGoods</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>goodsServlet</servlet-name>
+        <url-pattern>/goods</url-pattern>
+    </servlet-mapping>
 </web-app>

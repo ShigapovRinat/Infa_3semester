@@ -8,28 +8,32 @@ import java.io.PrintWriter;
 
 @WebServlet(name = "task2.ServletProfile")
 public class ServletProfile extends HttpServlet {
-    protected String login;
+    private String html1 = "<head>" +
+            "    <meta charset=\"UTF-8\">" +
+            "    <title>Profile</title>" +
+            "</head>" +
+            "<body>" +
+            "<h1>Hello, ";
+    private String html2 = "</h1>" +
+            "<form action=\"goods\">" +
+            "<input type=\"submit\" value=\"Goods\">" +
+            "</form>" +
+            "<form  action=\"logout\">" +
+            "<input type=\"submit\" value=\"Log out\">" +
+            "</form>" +
+            "</body>\n" +
+            "</html>";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        login = (String) session.getAttribute("login");
+        String login = (String) session.getAttribute("login");
         if (login != null) {
             PrintWriter printWriter = response.getWriter();
             printWriter.print(
-                    "<head>\n" +
-                    "    <meta charset=\"UTF-8\">\n" +
-                    "    <title>Profile</title>\n" +
-                    "</head>\n" +
-                    "<body>\n" +
-                    "<h1>Hello, " + login + "</h1>\n" +
-                    "<form  action=\"logout\">" +
-                    "<input type=\"submit\" value=\"Log out\">" +
-                    "</form>" +
-                    "</body>\n" +
-                    "</html>");
+                    html1 + login + html2);
             printWriter.close();
         } else {
             response.sendRedirect("/task/login");
