@@ -1,3 +1,5 @@
+package downloader;
+
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -18,7 +20,7 @@ public class Downloader extends Thread {
         URL url = new URL(urlStr);
         BufferedInputStream bis = new BufferedInputStream(url.openStream());
 //        String fileName = urlStr.substring(urlStr.lastIndexOf('/') + 1);
-        FileOutputStream fis = new FileOutputStream(fileName + urlStr.substring(urlStr.lastIndexOf('.')));
+        FileOutputStream fis = new FileOutputStream(fileName + "_" + urlStr.substring(urlStr.lastIndexOf('/') + 1));
         byte[] buffer = new byte[1024];
         int count = 0;
         while ((count = bis.read(buffer, 0, 1024)) != -1) {
@@ -31,7 +33,7 @@ public class Downloader extends Thread {
     @Override
     public void run() {
         try {
-                download();
+            download();
         } catch (IOException e) {
             e.printStackTrace();
         }
