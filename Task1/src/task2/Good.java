@@ -2,11 +2,13 @@ package task2;
 
 public class Good {
     private int id;
+    private int price;
     private String name;
 
-    public Good(int id, String name) {
+    public Good(int id, String name, int price) {
         this.id = id;
         this.name = name;
+        this.price = price;
     }
 
     public int getId() {
@@ -24,4 +26,13 @@ public class Good {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
 }
