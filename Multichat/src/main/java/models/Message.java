@@ -2,8 +2,8 @@ package models;
 
 import java.util.Date;
 
-public class Message {
-    private Integer id_message;
+public class Message extends Payload{
+    private int idMessage;
     private User user;
     private String text;
     private Date date;
@@ -11,9 +11,19 @@ public class Message {
     public Message(){
     }
 
+    public Message(int idMessage, User user){
+        this.idMessage = idMessage;
+        this.user = user;
+    }
+
     public Message(User user, String text) {
         this.text = text;
         this.user = user;
+    }
+
+    public Message(int idMessage, String text) {
+        this.idMessage = idMessage;
+        this.text = text;
     }
 
     public User getUser() {
@@ -33,12 +43,12 @@ public class Message {
     }
 
 
-    public Integer getId_message() {
-        return id_message;
+    public Integer getIdMessage() {
+        return idMessage;
     }
 
-    public void setId_message(Integer id_message) {
-        this.id_message = id_message;
+    public void setIdMessage(int idMessage) {
+        this.idMessage = idMessage;
     }
 
     public String getText() {

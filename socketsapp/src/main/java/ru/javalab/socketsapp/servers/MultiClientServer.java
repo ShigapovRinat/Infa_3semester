@@ -1,18 +1,21 @@
+package ru.javalab.socketsapp.servers;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Server {
-
+public class MultiClientServer {
     private ServerSocket serverSocket;
     private List<ClientHandler> clients;
-    private Connection connection;
 
+    public MultiClientServer() {
+        clients = new ArrayList<ClientHandler>();
+    }
 
     public void start(int port) {
         try {
@@ -32,26 +35,25 @@ public class Server {
         }
     }
 
-
-
-    class ClientHandler extends Thread {
+    private class ClientHandler extends Thread {
         private Socket clientSocket;
         private BufferedReader reader;
 
         public ClientHandler(Socket clientSocket) {
             this.clientSocket = clientSocket;
             clients.add(this);
+            System.out.println("New client!");
         }
 
         @Override
         public void run() {
+            System.out.println("in run");
             try {
                 reader = new BufferedReader(
                         new InputStreamReader(
                                 clientSocket.getInputStream()));
                 String line;
                 while ((line = reader.readLine()) != null) {
-
                     System.out.println(line);
                     for (ClientHandler client : clients) {
                         PrintWriter writer = new PrintWriter(
@@ -64,9 +66,6 @@ public class Server {
             } catch (IOException e) {
                 throw new IllegalStateException(e);
             }
-
         }
     }
-
 }
-
