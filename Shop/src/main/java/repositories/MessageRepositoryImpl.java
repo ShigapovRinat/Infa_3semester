@@ -24,8 +24,8 @@ public class MessageRepositoryImpl implements CrudRepository<Message> {
     @Override
     public boolean save(Message message) {
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO public.message(id_user, text) VALUES (?,?)");
-            statement.setInt(1, userRepository.findIdByUsername(message.getUser().getUsername()));
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO public.message(user_id, text) VALUES (?,?)");
+            statement.setInt(1, userRepository.findIdByUsername(message.getUser().getLogin()));
             statement.setString(2, message.getText());
             return statement.execute();
         } catch (SQLException e) {
@@ -39,13 +39,13 @@ public class MessageRepositoryImpl implements CrudRepository<Message> {
     }
 
     @Override
-    public Optional<Message> find(User user) {
+    public Optional<Message> find(Message message) {
         return Optional.empty();
     }
 
     @Override
-    public void delete(Message message) {
-
+    public boolean delete(Message message) {
+        return false;
     }
 
     @Override
@@ -72,10 +72,12 @@ public class MessageRepositoryImpl implements CrudRepository<Message> {
 
     private RowMapper<Message> mapper = rs -> {
         try {
-            return new Message(rs.getInt("id_message"),
-                    rs.getString("text"));
+            return new Message(rs.getInt("id"),
+                    findUserById(rs.getInt("user_id")),
+                    rs.getString("text"),
+                    rs.getDate("date"));
         } catch (SQLException e) {
-            System.out.println("User mapping error");
+            System.out.println("Message mapping error");
             throw new IllegalArgumentException(e);
         }
     };

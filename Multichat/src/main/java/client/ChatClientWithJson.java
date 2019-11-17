@@ -65,7 +65,15 @@ public class ChatClientWithJson {
                             command.setPage(Integer.parseInt(args[1]));
                             command.setSize(Integer.parseInt(args[2]));
                             json.setPayload(command);
-                            writer.print(mapper.writeValueAsString(json));
+                            writer.println(mapper.writeValueAsString(json));
+                            break;
+                        case "registration":
+                            Registration registration = new Registration();
+                            registration.setLogin(args[1]);
+                            registration.setPassword(args[2]);
+                            json.setPayload(registration);
+//                            System.out.println(mapper.writeValueAsString(json));
+                            writer.println(mapper.writeValueAsString(json));
                             break;
                         default:
                             System.out.println("Did not find this command");
@@ -76,9 +84,9 @@ public class ChatClientWithJson {
             }
     }
 
-    public void sendInformation(String message) {
-        writer.println(message);
-    }
+//    public void sendInformation(String message) {
+//        writer.println(message);
+//    }
 
     private Runnable receiveMessagesTask = new Runnable() {
         public void run() {

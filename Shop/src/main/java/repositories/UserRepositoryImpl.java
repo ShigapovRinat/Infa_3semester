@@ -21,9 +21,10 @@ public class UserRepositoryImpl implements CrudRepository<User> {
     @Override
     public boolean save(User user) {
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO public.user (login, password) VALUES (?,?)");
-            statement.setString(1, user.getUsername());
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO public.user (login, password, role_id) VALUES (?,?,?)");
+            statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
+            statement.setInt(3, user.getRole());
             return statement.execute();
         } catch (SQLException e) {
             System.out.println("Error during adding user in db");
@@ -37,8 +38,8 @@ public class UserRepositoryImpl implements CrudRepository<User> {
     }
 
     @Override
-    public void delete(User user) {
-
+    public boolean delete(User user) {
+        return false;
     }
 
     @Override
@@ -46,10 +47,11 @@ public class UserRepositoryImpl implements CrudRepository<User> {
         return null;
     }
 
+
     public Optional<User> find(User user) {
         try {
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM public.user WHERE login = ?");
-            stmt.setString(1, user.getUsername());
+            stmt.setString(1, user.getLogin());
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return Optional.ofNullable(mapper.mapRow(rs));
@@ -81,7 +83,8 @@ public class UserRepositoryImpl implements CrudRepository<User> {
         try {
             return new User(rs.getInt("id"),
                     rs.getString("login"),
-                    rs.getString("password"));
+                    rs.getString("password"),
+                    rs.getInt("role_id"));
         } catch (SQLException e) {
             System.out.println("User mapping error");
             throw new IllegalArgumentException(e);
