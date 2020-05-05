@@ -31,7 +31,7 @@ public class ChatServer {
 
     public void start(int port) {
         try {
-            serverSocket = new ServerSocket(port);
+            serverSocket = new ServerSocket(port, 2);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
